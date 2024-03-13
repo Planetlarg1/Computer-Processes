@@ -1,0 +1,23 @@
+/**
+ * FThree.hdl
+ * Logic drawn from turth table FThree: (f1, f0) = (0, 0).
+ */
+
+CHIP FThree {
+    IN A, B, C, D;    // Inputs
+    OUT E, F, G;      // Outputs
+
+    PARTS:
+    // Implement logic using built-in chips
+    Not(in=A, out=notA);
+    And(a=notA, b=B, out=and1);
+    And(a=C, b=D, out=and2);
+    Or(a=and1, b=and2, out=E);
+    And(a=A, b=B, out=and3);
+    Not(in=and3, out=not_and3);
+    And(a=not_and3, b=C, out=and4);
+    And(a=and4, b=D, out=F);
+    Xor(a=A, b=B, out=xor1);
+    Xor(a=xor1, b=C, out=xor2);
+    Xor(a=xor2, b=D, out=G);
+}

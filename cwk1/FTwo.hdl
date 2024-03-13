@@ -1,0 +1,20 @@
+/**
+ * FTwo.hdl
+ * Logic drawn from turth table FTwo: (f1, f0) = (0, 1).
+ */
+
+CHIP FTwo {
+    IN A, B, C, D;    // Inputs
+    OUT F, G;         // Outputs
+
+    PARTS:
+    // Implement logic using built-in chips
+    Or(a=A, b=B, out=or1);
+    And(a=or1, b=C, out=and1);
+    Not(in=or1, out=not_or1);
+    And(a=not_or1, b=D, out=and2);
+    Or(a=and1, b=and2, out=F);
+    Xor(a=A, b=B, out=xor1);
+    Xor(a=xor1, b=C, out=xor2);
+    Xor(a=xor2, b=D, out=G);
+}

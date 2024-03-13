@@ -1,0 +1,19 @@
+/**
+ * FOne.hdl
+ * Logic drawn from turth table FOne: (f1, f0) = (1, 0).
+ */
+
+CHIP FOne {
+    IN A, B, C, D;    // Inputs
+    OUT F, G;         // Outputs
+
+    PARTS:
+    // Implement logic using built-in chips
+    Or(a=A, b=B, out=or1);
+    Not(in=or1, out=not_or1);
+    And(a=not_or1, b=C, out=and1);
+    And(a=and1, b=D, out=F);
+    Xor(a=A, b=B, out=xor1);
+    Xor(a=xor1, b=C, out=xor2);
+    Xor(a=xor2, b=D, out=G);
+}

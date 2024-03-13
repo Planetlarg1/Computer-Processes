@@ -1,0 +1,18 @@
+/**
+ * FZero.hdl
+ * Logic drawn from turth table FZero: (f1, f0) = (1, 1).
+ */
+
+CHIP FZero {
+    IN A, B, C, D;    // Inputs
+    OUT F, G;         // Outputs
+
+    PARTS:
+    // Implement logic using built-in chips
+    And(a=A, b=B, out=and1);
+    And(a=C, b=D, out=and2);
+    Or(a=and1, b=and2, out=F);
+    Not(in=F, out=notF);
+    Not(in=G, out=notG);
+    And(a=notF, b=notG, out=G);
+}
