@@ -1,0 +1,27 @@
+/**
+ * FALL.hdl
+ * Combines circuits FOne to FThree.
+ */
+
+CHIP FALL {
+    IN A, B, C, D, f1, f0; // Inputs
+    OUT E, F, G;           // Outputs
+
+    PARTS:
+    // Use 2 to 4 demux to select appropriate circuit
+    DMux4Way(in=f1, sel=f0, a=f1_f0_00, b=f1_f0_01, c=f1_f0_10, d=f1_f0_11);
+    
+    // Implement original 4 circuits
+    FZero(in[0]=A, in[1]=B, in[2]=C, in[3]=D, out[0]=fzero_F, out[1]=fzero_G);
+    FOne(in[0]=A, in[1]=B, in[2]=C, in[3]=D, out[0]=fone_F, out[1]=fone_G);
+    FTwo(in[0]=A, in[1]=B, in[2]=C, in[3]=D, out[0]=ftwo_F, out[1]=ftwo_G);
+    FThree(in[0]=A, in[1]=B, in[2]=C, in[3]=D, out[0]=fthree_E, out[1]=fthree_F, out[2]=fthree_G);
+
+    // Multiplex outputs for F and G
+    Mux8Way16(a=fzero_F, b=fzero_G, c=fone_F, d=fone_G, e=ftwo_F, f=ftwo_G, g=fthree_E, h=fthree_F, sel=f1_f0_11, out=out_F);
+    Mux8Way16(a=fzero_G, b=fone_F, c=fone_G, d=ftwo_F, e=ftwo_G, f=fthree_E, g=fthree_F, h=fthree_G, sel=f1_f0_11, out=out_G);
+
+    // Output based on f1 and f0
+    Mux16(a=out_F, b=out_G, sel=f1_f0_00, out=F);
+    Mux16(a=out_G, b=fthree_G, sel=f1_f0_00, out=G);
+}
