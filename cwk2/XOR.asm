@@ -8,7 +8,3 @@ A=M
 D=D^M    // XOR with RAM[4]
 @5
 M=D      // Store result in RAM[5]
-
-(END)
-@END
-D;JNE    // Halt program
