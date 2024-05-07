@@ -16,13 +16,13 @@ D=M      // Load loop counter into D
 @END_LOOP
 D;JEQ    // If D=0, exit loop
 @R3
-D=M      // Load number from RAM[3] into D
+D=M      // Load RAM[3] into D
 @R5
-D=D<<1   // Shift left by 1 bit
+D=D<<1   // 1 bit left shift
 @R5
-M=D      // Store shifted number back in RAM[5]
+M=D      // Store shifted number in RAM[5]
 @R3
-D=M      // Load number from RAM[3] into D
+D=M      // Load RAM[3] into D
 @32768   // Load 2^15 (MSB)
 D=A
 @R5
@@ -41,4 +41,4 @@ M=M-1    // Decrement loop counter
 
 (END)
 @END
-0;JMP    // Infinite loop to halt the program
+0;JMP    // Halt program
