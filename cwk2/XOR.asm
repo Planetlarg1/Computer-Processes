@@ -10,6 +10,6 @@ M=D      // Store result in RAM[5]
 
 (END)
 @END
-0;JMP    // Halt program
+D;JNE    // Halt program
 
 (END)
