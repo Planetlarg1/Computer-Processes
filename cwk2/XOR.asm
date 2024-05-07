@@ -3,9 +3,9 @@
 
 @R3
 D=M      // Load RAM[3] into D
-@RAM[4]
+@R4
 D=D^M    // XOR with RAM[4]
-@RAM[5]
+@R5
 M=D      // Store result in RAM[5]
 
 (END)
