@@ -7,8 +7,3 @@ D=M      // Load RAM[3] into D
 D=D^M    // XOR with RAM[4]
 @RAM[5]
 M=D      // Store result in RAM[5]
-
-@END
-0;JMP    // Halt program
-
-(END)
