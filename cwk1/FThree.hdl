@@ -4,20 +4,19 @@
  */
 
 CHIP FThree {
-    IN A, B, C, D;    // Inputs
-    OUT E, F, G;      // Outputs
+    IN A, B, C, D, E; // INputs
+    OUT E, F, G; // Outputs
 
     PARTS:
-    // Implement logic using built-in chips
-    Not(in=A, out=notA);
-    And(a=notA, b=B, out=and1);
-    And(a=C, b=D, out=and2);
-    Or(a=and1, b=and2, out=E);
-    And(a=A, b=B, out=and3);
-    Not(in=and3, out=not_and3);
-    And(a=not_and3, b=C, out=and4);
-    And(a=and4, b=D, out=F);
-    Xor(a=A, b=B, out=xor1);
-    Xor(a=xor1, b=C, out=xor2);
-    Xor(a=xor2, b=D, out=G);
+    // E
+    NOT(in=E, out=NotE);
+    OR(a=NotE, b=C, out=E);
+
+    // F
+    AND(a=B, b=D, out=And1);
+    OR(a=And1, b=E, out=F);
+
+    // G
+    AND(a=A, b=C, out=And2);
+    OR(a=And2, b=B, out=G);
 }

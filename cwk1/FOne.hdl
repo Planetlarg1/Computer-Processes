@@ -4,16 +4,18 @@
  */
 
 CHIP FOne {
-    IN A, B, C, D;    // Inputs
-    OUT F, G;         // Outputs
+    IN A, B, C, D; // Inputs
+    OUT F, G; // Outputs
 
     PARTS:
-    // Implement logic using built-in chips
-    Or(a=A, b=B, out=or1);
-    Not(in=or1, out=not_or1);
-    And(a=not_or1, b=C, out=and1);
-    And(a=and1, b=D, out=F);
-    Xor(a=A, b=B, out=xor1);
-    Xor(a=xor1, b=C, out=xor2);
-    Xor(a=xor2, b=D, out=G);
+    // F
+    AND(a=A, b=false, out=And1);
+    AND(a=B, b=false, out=And2);
+    AND(a=C, b=D, out=And3);
+    OR(a=And1, b=And2, out=F);
+
+    // G
+    AND(a=B, b=false, out=And4);
+    AND(a=D, b=false, out=And5);
+    OR(a=And4, b=And5, out=G);
 }

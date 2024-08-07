@@ -4,8 +4,8 @@
  */
 
 CHIP FZero {
-    IN A, B, C, D;
-    OUT F, G;
+    IN A, B, C, D; // Inputs
+    OUT F, G; // Outputs
 
     PARTS:
     // F
