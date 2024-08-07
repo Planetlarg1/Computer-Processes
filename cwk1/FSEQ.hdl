@@ -1,28 +1,28 @@
 /**
- * FALL.hdl
- * Combines circuits FOne to FThree.
+ * FSEQ.hdl
+ * Combines circuits with feedback Load
  */
 
-CHIP FALL {
-    IN f1, f0, A, B, C, D;
+CHIP FSEQ {
+    IN f1, f0, A, B, C, D, Load;
     OUT E, F, G;
 
     PARTS:
     // Intermediate signals
-    Mux(a=false, b=true, sel=f0, out=Sel0);
-    Mux(a=false, b=true, sel=f1, out=Sel1);
+    Mux(a=C, b=F, sel=Load, out=CNext);
+    Mux(a=D, b=G, sel=Load, out=DNext);
 
     // Logic for FZero
-    FZero(A=A, B=B, C=C, D=D, F=FZeroF, G=FZeroG);
+    FZero(A=A, B=B, C=CNext, D=DNext, F=FZeroF, G=FZeroG);
     
     // Logic for FOne
-    FOne(A=A, B=B, C=C, D=D, F=FOneF, G=FOneG);
+    FOne(A=A, B=B, C=CNext, D=DNext, F=FOneF, G=FOneG);
 
     // Logic for FTwo
-    FTwo(A=A, B=B, C=C, D=D, F=FTwoF, G=FTwoG);
+    FTwo(A=A, B=B, C=CNext, D=DNext, F=FTwoF, G=FTwoG);
     
     // Logic for FThree
-    FThree(A=A, B=B, C=C, D=D, E=FThreeE, F=FThreeF, G=FThreeG);
+    FThree(A=A, B=B, C=CNext, D=DNext, E=FThreeE, F=FThreeF, G=FThreeG);
 
     // Select logic
     Mux16(a=FZeroF, b=FOneF, c=FTwoF, d=FThreeF, sel=Sel0, sel1=Sel1, out=F);
