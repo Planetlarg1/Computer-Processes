@@ -15,6 +15,7 @@ CHIP FThree {
     And(a=AorCandD, b=B, out=AorCandBandD);
     Or(a=AandC, b=AorCandBandD, out=E);
     
+
     // F = (NOT(A) AND B AND NOT(C) AND D)
     // OR (A AND B AND C AND D)
     // OR (NOT(A) AND NOT(B) AND C)
@@ -26,29 +27,29 @@ CHIP FThree {
     Not(in=C, out=notC);
     Not(in=D, out=notD);
     
-    // Line 1
-    And(a=notA, b=notB, out=notAandB);
+    // Line 1 (NOT(A) AND B AND NOT(C) AND D)
+    And(a=notA, b=B, out=notAandB);
     And(a=notAandB, b=notC, out=notAandBandnotC);
     And(a=notAandBandnotC, b=D, out=notAandBandnotCandD);
 
-    // Line 2
+    // Line 2 (A AND B AND C AND D)
     And(a=A, b=B, out=AandB);
     And(a=AandB, b=C, out=AandBandC);
     And(a=AandBandC, b=D, out=AandBandCandD);
 
-    // Line 3
+    // Line 3 (NOT(A) AND NOT(B) AND C)
     And(a=notA, b=notB, out=notAandnotB);
     And(a=notAandnotB, b=C, out=notAandnotBandC);
 
-    // Line 4
+    // Line 4 (NOT(A) AND C AND NOT(D)) 
     And(a=notA, b=C, out=notAandC);
     And(a=notAandC, b=notD, out=notAandCandnotD);
 
-    // Line 5
+    // Line 5 (A AND NOT(B) AND NOT(C))
     And(a=A, b=notB, out=AandnotB);
     And(a=AandnotB, b=notC, out=AandnotBandnotC);
 
-    // Line 6
+    // Line 6 (A AND NOT(C) AND NOT(D))
     And(a=A, b=notC, out=AandnotC);
     And(a=AandnotC, b=notD, out=AandnotCandnotD);
 
@@ -58,4 +59,10 @@ CHIP FThree {
     Or(a=FOr2, b=notAandCandnotD, out=FOr3);
     Or(a=FOr3, b=AandnotBandnotC, out=FOr4);
     Or(a=FOr4, b=AandnotCandnotD, out=F);
+
+
+    // G = (NOT(B) AND D) OR (B AND NOT(D))
+    And(a=notB, b=D, out=notBandD);
+    And(a=B, b=notD, out=BandnotD);
+    Or(a=notBandD, b=BandnotD, out=G);
 }

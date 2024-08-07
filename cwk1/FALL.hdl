@@ -1,33 +1,26 @@
 /**
  * FALL.hdl
- * Combines circuits FOne to FThree.
+ * Combines FZero, FOne, FTwo, and FThree based on inputs f1 and f0.
  */
 
 CHIP FALL {
-    IN f1, f0, A, B, C, D;
-    OUT E, F, G;
+    IN f1, f0, A, B, C, D; // Inputs
+    OUT E, F, G; // Outputs
 
     PARTS:
-    // Intermediate signals
-    Mux(a=false, b=true, sel=f0, out=Sel0);
-    Mux(a=false, b=true, sel=f1, out=Sel1);
-
-    // Logic for FZero
+    // Instantiating chips
     FZero(A=A, B=B, C=C, D=D, F=FZeroF, G=FZeroG);
-    
-    // Logic for FOne
     FOne(A=A, B=B, C=C, D=D, F=FOneF, G=FOneG);
-
-    // Logic for FTwo
     FTwo(A=A, B=B, C=C, D=D, F=FTwoF, G=FTwoG);
-    
-    // Logic for FThree
     FThree(A=A, B=B, C=C, D=D, E=FThreeE, F=FThreeF, G=FThreeG);
 
-    // Select logic
-    Mux16(a=FZeroF, b=FOneF, c=FTwoF, d=FThreeF, sel=Sel0, sel1=Sel1, out=F);
-    Mux16(a=FZeroG, b=FOneG, c=FTwoG, d=FThreeG, sel=Sel0, sel1=Sel1, out=G);
+    // Multiplexers to select the correct output
+    // F selection
+    Mux4Way16(a=FZeroF, b=FOneF, c=FTwoF, d=FThreeF, sel=f0, sel1=f1, out=F);
 
-    // Output logic
-    Mux16(a=FZeroE, b=FOneE, c=FTwoE, d=FThreeE, sel=Sel0, sel1=Sel1, out=E);
+    // G selection
+    Mux4Way16(a=FZeroG, b=FOneG, c=FTwoG, d=FThreeG, sel=f0, sel1=f1, out=G);
+
+    // E selection, only FThree has E output
+    Mux4Way16(a=false, b=false, c=false, d=FThreeE, sel=f0, sel1=f1, out=E);
 }
