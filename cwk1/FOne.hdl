@@ -8,14 +8,9 @@ CHIP FOne {
     OUT F, G; // Outputs
 
     PARTS:
-    // F
-    AND(a=A, b=false, out=And1);
-    AND(a=B, b=false, out=And2);
-    AND(a=C, b=D, out=And3);
-    OR(a=And1, b=And2, out=F);
+    // F = A AND C
+    And(a=A, b=C, out=F);
 
-    // G
-    AND(a=B, b=false, out=And4);
-    AND(a=D, b=false, out=And5);
-    OR(a=And4, b=And5, out=G);
+    // G = B AND D
+    And(a=B, b=D, out=G);
 }

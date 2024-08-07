@@ -8,11 +8,9 @@ CHIP FTwo {
     OUT F, G; // Outputs
 
     PARTS:
-    // F
-    AND(a=C, b=D, out=And1);
-    OR(a=And1, b=C, out=F);
+    // F = A OR C
+    Or(a=A, b=C, out=F);
 
-    // G
-    AND(a=B, b=D, out=And2);
-    OR(a=And2, b=C, out=G);
+    // G = B OR D
+    Or(a=B, b=D, out=G);
 }

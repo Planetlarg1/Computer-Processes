@@ -4,19 +4,18 @@
  */
 
 CHIP FThree {
-    IN A, B, C, D, E; // INputs
+    IN A, B, C, D; // Inputs
     OUT E, F, G; // Outputs
 
     PARTS:
-    // E
-    NOT(in=E, out=NotE);
-    OR(a=NotE, b=C, out=E);
+    // E = (A AND C) OR (B AND (D AND (A OR C)))
+    And(a=A, b=C, out=AandC);
+    Or(a=A, b=C, out=AorC);
+    And(a=AorC, b=D, out=AorCandD);
+    And(a=AorCandD, b=B, out=AorCandBandD);
+    Or(a=AandC, b=AorCandBandD, out=E);
+    
+    // F = (NOT(A) AND B AND NOT(C) AND D) OR (A AND B AND C AND D) OR (NOT(A) AND NOT(B) AND C)
+    // OR (NOT(A) AND C AND NOT(D)) OR (A AND NOT(B) AND NOT(C)) OR (A AND NOT(C) AND NOT(D))
 
-    // F
-    AND(a=B, b=D, out=And1);
-    OR(a=And1, b=E, out=F);
-
-    // G
-    AND(a=A, b=C, out=And2);
-    OR(a=And2, b=B, out=G);
 }

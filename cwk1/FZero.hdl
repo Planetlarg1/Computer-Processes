@@ -8,13 +8,9 @@ CHIP FZero {
     OUT F, G; // Outputs
 
     PARTS:
-    // F
-    AND(a=A, b=true, out=And1);
-    AND(a=B, b=true, out=And2);
-    OR(a=And1, b=And2, out=F);
+    // F = NOT C
+    Not(in=C, out=F);
 
-    // G
-    XOR(a=A, b=B, out=Xor1);
-    XOR(a=Xor1, b=C, out=Xor2);
-    XOR(a=Xor2, b=D, out=G);
+    // G = NOT D
+    Not(in=D, out=G);
 }
