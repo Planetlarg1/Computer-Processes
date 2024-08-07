@@ -16,18 +16,18 @@ CHIP FALL {
 
     // Multiplexers to select the correct output
     // F selection
-    Mux(a=FZeroF, b=FOneF, sel=f1, out=tempF1);
-    Mux(a=FTwoF, b=FThreeF, sel=f1, out=tempF2);
-    Mux(a=tempF1, b=tempF2, sel=f0, out=F);
+    Mux(a=FOneF, b=FZeroF, sel=f0, out=tempF1);
+    Mux(a=FThreeF, b=FTwoF, sel=f0, out=tempF2);
+    Mux(a=tempF2, b=tempF1, sel=f1, out=F);
 
     // G selection
-    Mux(a=FZeroG, b=FOneG, sel=f1, out=tempG1);
-    Mux(a=FTwoG, b=FThreeG, sel=f1, out=tempG2);
-    Mux(a=tempG1, b=tempG2, sel=f0, out=G);
+    Mux(a=FOneG, b=FZeroG, sel=f0, out=tempG1);
+    Mux(a=FThreeG, b=FTwoG, sel=f0, out=tempG2);
+    Mux(a=tempG2, b=tempG1, sel=f1, out=G);
 
     // E selection
     // E is only produced by FThree when f1 = 0 and f0 = 0
     // Use false for other cases
-    Mux(a=false, b=FThreeE, sel=f0, out=tempE1);
-    Mux(a=false, b=tempE1, sel=f1, out=E);
+    Mux(a=FThreeE, b=false, sel=f0, out=tempE1);
+    Mux(a=tempE1, b=false, sel=f1, out=E);
 }
