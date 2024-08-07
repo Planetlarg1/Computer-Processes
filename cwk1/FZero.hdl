@@ -4,15 +4,17 @@
  */
 
 CHIP FZero {
-    IN A, B, C, D;    // Inputs
-    OUT F, G;         // Outputs
+    IN A, B, C, D;
+    OUT F, G;
 
     PARTS:
-    // Implement logic using built-in chips
-    And(a=A, b=B, out=and1);
-    And(a=C, b=D, out=and2);
-    Or(a=and1, b=and2, out=F);
-    Not(in=F, out=notF);
-    Not(in=G, out=notG);
-    And(a=notF, b=notG, out=G);
+    // F
+    AND(a=A, b=true, out=And1);
+    AND(a=B, b=true, out=And2);
+    OR(a=And1, b=And2, out=F);
+
+    // G
+    XOR(a=A, b=B, out=Xor1);
+    XOR(a=Xor1, b=C, out=Xor2);
+    XOR(a=Xor2, b=D, out=G);
 }
