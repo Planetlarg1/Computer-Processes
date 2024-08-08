@@ -1,44 +1,67 @@
 // Rotate.asm
 // Rotates the bits of a 16-bit number left a specified amount of times
 
-@R3
-D=M      // Load original number into D
-@R4
-D=D+A    // Add number of rotations to original number
-@R4
-D=D-A    // Subtract original number from total (for loop counter)
-@R5
-M=D      // Store number of rotations in RAM[5] for loop counter
+// Initialize
+@3
+D = M          // D = RAM[3] (original number)
+@13
+M = D          // Store original number in R13
+
+@4
+D = M          // D = RAM[4] (number of rotations)
+@14
+M = D          // Store number of rotations in R14
 
 (LOOP)
-@R4
-D=M      // Load loop counter into D
-@END_LOOP
-D;JEQ    // If D=0, exit loop
-@R3
-D=M      // Load RAM[3] into D
-@R5
-D=D<<1   // 1 bit left shift
-@R5
-M=D      // Store shifted number in RAM[5]
-@R3
-D=M      // Load RAM[3] into D
-@32768   // Load 2^15 (MSB)
-D=A
-@R5
-D=D&A    // Check if MSB is set
-@END_LOOP
-D;JNE    // If MSB is set, jump to END_LOOP
-@1
-D=A
-@R5
-M=D      // Set LSB to 1
-(END_LOOP)
-@R4
-M=M-1    // Decrement loop counter
-@LOOP
-0;JMP    // Loop back to LOOP
+    // Check if number of rotations is 0
+    @14
+    D = M
+    @END
+    D;JEQ      // If number of rotations is 0, end the loop
+
+    // Perform one bit rotation left
+    @13
+    D = M      // D = original number
+    @32768
+    D = D & A  // D = RAM[3] & 1000000000000000 (extract the MSB)
+    @NO_MSB
+    D;JEQ      // If MSB is 0, jump to NO_MSB
+
+    // Shift left and set LSB to 1
+    @13
+    D = M      // D = original number
+    D = D + D  // Perform left shift by 1
+    D = D + 1  // Set the LSB to 1
+    @STORE
+    0;JMP
+
+(NO_MSB)
+    // Shift left without setting LSB to 1
+    @13
+    D = M      // D = original number
+    D = D + D  // Perform left shift by 1
+
+(STORE)
+    @13
+    M = D      // Store the result back in R13
+
+(DECREMENT)
+    // Decrement the number of rotations
+    @14
+    M = M - 1
+
+    // Repeat the loop
+    @LOOP
+    0;JMP
 
 (END)
-@END
-0;JMP    // Halt program
+    // Store the final result in RAM[5]
+    @13
+    D = M
+    @5
+    M = D
+
+    // End program
+    (HALT)
+    @HALT
+    0;JMP
