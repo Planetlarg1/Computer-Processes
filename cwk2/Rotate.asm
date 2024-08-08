@@ -1,67 +1,48 @@
-// Rotate.asm
-// Rotates the bits of a 16-bit number left a specified amount of times
+// Initialize variables
+@3   // RAM address to store the original number
+D=A  // Store the address in the D register
+@IN  // Input the original number from keyboard
+D=M  // Store the original number in the D register
+@3   // Store the original number in RAM[3]
+M=D
 
-// Initialize
-@3
-D = M          // D = RAM[3] (original number)
-@13
-M = D          // Store original number in R13
+@4   // RAM address to store the number of rotations
+D=A  // Store the address in the D register
+@IN  // Input the number of rotations from keyboard
+D=M  // Store the number of rotations in the D register
+@4   // Store the number of rotations in RAM[4]
+M=D
 
-@4
-D = M          // D = RAM[4] (number of rotations)
-@14
-M = D          // Store number of rotations in R14
+// Rotate the bits left
+@0   // Initialize counter
+D=A
+@5   // RAM address to store the result
+M=0  // Initialize the result to zero
 
 (LOOP)
-    // Check if number of rotations is 0
-    @14
-    D = M
-    @END
-    D;JEQ      // If number of rotations is 0, end the loop
+@3   // Load the original number
+D=M
+@15  // Mask to extract the MSb of the original number
+D=D&A
+D=D>>15 // Shift the MSb to the LSB position
+@5   // Load the result
+M=M+D // Add the MSb to the result
+@5   // Rotate the result left
+D=M
+D=D<<1 // Shift the result left by one bit
+M=D
+@0   // Increment counter
+M=M+1
+@4   // Check if the number of rotations has been reached
+D=M
+@0
+D=D-M
+@LOOP // Repeat until the number of rotations has been reached
 
-    // Perform one bit rotation left
-    @13
-    D = M      // D = original number
-    @32768
-    D = D & A  // D = RAM[3] & 1000000000000000 (extract the MSB)
-    @NO_MSB
-    D;JEQ      // If MSB is 0, jump to NO_MSB
+// Output the result
+@5  // Load the result
+D=M
+@OUT // Output the result
+M=D
 
-    // Shift left and set LSB to 1
-    @13
-    D = M      // D = original number
-    D = D + D  // Perform left shift by 1
-    D = D + 1  // Set the LSB to 1
-    @STORE
-    0;JMP
-
-(NO_MSB)
-    // Shift left without setting LSB to 1
-    @13
-    D = M      // D = original number
-    D = D + D  // Perform left shift by 1
-
-(STORE)
-    @13
-    M = D      // Store the result back in R13
-
-(DECREMENT)
-    // Decrement the number of rotations
-    @14
-    M = M - 1
-
-    // Repeat the loop
-    @LOOP
-    0;JMP
-
-(END)
-    // Store the final result in RAM[5]
-    @13
-    D = M
-    @5
-    M = D
-
-    // End program
-    (HALT)
-    @HALT
-    0;JMP
+(END) // End of program
